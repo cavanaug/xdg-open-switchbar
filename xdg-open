@@ -1,0 +1,240 @@
+#!/usr/bin/env python3
+# ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+# │                                                                                                                                                      │
+# │    ██╗  ██╗██████╗  ██████╗        ██████╗ ██████╗ ███████╗███╗   ██╗      ███████╗██╗    ██╗██╗████████╗ ██████╗██╗  ██╗██████╗  █████╗ ██████╗     │
+# │    ╚██╗██╔╝██╔══██╗██╔════╝       ██╔═══██╗██╔══██╗██╔════╝████╗  ██║      ██╔════╝██║    ██║██║╚══██╔══╝██╔════╝██║  ██║██╔══██╗██╔══██╗██╔══██╗    │
+# │     ╚███╔╝ ██║  ██║██║  ███╗█████╗██║   ██║██████╔╝█████╗  ██╔██╗ ██║█████╗███████╗██║ █╗ ██║██║   ██║   ██║     ███████║██████╔╝███████║██████╔╝    │
+# │     ██╔██╗ ██║  ██║██║   ██║╚════╝██║   ██║██╔═══╝ ██╔══╝  ██║╚██╗██║╚════╝╚════██║██║███╗██║██║   ██║   ██║     ██╔══██║██╔══██╗██╔══██║██╔══██╗    │
+# │    ██╔╝ ██╗██████╔╝╚██████╔╝      ╚██████╔╝██║     ███████╗██║ ╚████║      ███████║╚███╔███╔╝██║   ██║   ╚██████╗██║  ██║██████╔╝██║  ██║██║  ██║    │
+# │    ╚═╝  ╚═╝╚═════╝  ╚═════╝        ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝      ╚══════╝ ╚══╝╚══╝ ╚═╝   ╚═╝    ╚═════╝╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝    │
+# │                                                                                                                                                      │
+# └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+"""
+xdg-open-switchbar: Shadow xdg-open to route URLs to Brave Browser profiles.
+
+Install at ~/.local/bin/xdg-open to intercept all desktop URL opens.
+Config: ~/.config/switchbar/switchbar-rules.json
+Log:    ~/.local/share/xdg-open-switchbar/switchbar.log (when XDG_SWITCHBAR_DEBUG=1)
+"""
+
+import json
+import logging
+import os
+import re
+import subprocess
+import sys
+from urllib.parse import urlparse
+
+# ---------------------------------------------------------------------------
+# Constants
+# ---------------------------------------------------------------------------
+
+REAL_XDG_OPEN = "/usr/bin/xdg-open"
+CONFIG_PATH = os.path.expanduser("~/.config/switchbar/switchbar-rules.json")
+LOG_DIR = os.path.expanduser("~/.local/share/xdg-open-switchbar")
+LOG_PATH = os.path.join(LOG_DIR, "switchbar.log")
+DEBUG = os.environ.get("XDG_SWITCHBAR_DEBUG", "0") == "1"
+
+# Detect WSL — on WSL the real xdg-open already delegates to Windows/Switchbar
+_IS_WSL = (
+    "microsoft" in open("/proc/version").read().lower()
+    if os.path.exists("/proc/version")
+    else False
+)
+
+# ---------------------------------------------------------------------------
+# Logging
+# ---------------------------------------------------------------------------
+
+
+def _setup_logging() -> logging.Logger:
+    logger = logging.getLogger("xdg-open-switchbar")
+    if not DEBUG:
+        logger.addHandler(logging.NullHandler())
+        return logger
+    os.makedirs(LOG_DIR, exist_ok=True)
+    handler = logging.FileHandler(LOG_PATH)
+    handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
+    logger.addHandler(handler)
+    logger.setLevel(logging.DEBUG)
+    return logger
+
+
+log = _setup_logging()
+
+# ---------------------------------------------------------------------------
+# Config loading
+# ---------------------------------------------------------------------------
+
+
+def load_config(path: str) -> dict | None:
+    """Load and return the switchbar config, or None on failure."""
+    try:
+        with open(path, encoding="utf-8") as fh:
+            return json.load(fh)
+    except FileNotFoundError:
+        log.warning("Config not found: %s", path)
+        return None
+    except json.JSONDecodeError as exc:
+        log.warning("Config parse error in %s: %s", path, exc)
+        return None
+
+
+# ---------------------------------------------------------------------------
+# Rule matching
+# ---------------------------------------------------------------------------
+
+
+def _hostname_matches(pattern: str, hostname: str) -> bool:
+    """
+    Match a rule value against a URL hostname.
+
+    Supports:
+    - Exact match:    "hp.zoom.us"  matches "hp.zoom.us"
+    - Wildcard prefix: "*.apps.cavanaughs.org" matches any subdomain
+    """
+    pattern = pattern.lower()
+    hostname = hostname.lower()
+    if pattern.startswith("*."):
+        suffix = pattern[1:]  # ".apps.cavanaughs.org"
+        return hostname.endswith(suffix) or hostname == pattern[2:]
+    return hostname == pattern
+
+
+def _url_matches(pattern: str, url: str) -> bool:
+    """Match a rule value (glob-like pattern) against the full URL."""
+    # Convert simple glob patterns (* and ?) to regex
+    regex = re.escape(pattern)
+    regex = regex.replace(r"\*", ".*").replace(r"\?", ".")
+    return bool(re.match(regex, url, re.IGNORECASE))
+
+
+def find_matching_rule(
+    url: str, rules: list[dict], profiles: dict[str, str]
+) -> tuple[dict | None, str | None]:
+    """
+    Return (rule, brave_profile_dir) for the first matching rule, or (None, None).
+
+    Only rules with type="profile" and a known profileId are considered.
+    """
+    parsed = urlparse(url)
+    hostname = parsed.hostname or ""
+
+    for rule in rules:
+        rule_type = rule.get("type")
+        if rule_type != "profile":
+            continue
+
+        profile_id = rule.get("profileId", "")
+        if not profile_id:
+            continue
+
+        profile_dir = profiles.get(profile_id)
+        if profile_dir is None:
+            log.warning(
+                "Unknown profileId %s in rule %s — skipping",
+                profile_id,
+                rule.get("id", "?"),
+            )
+            continue
+
+        value_type = rule.get("valueType", "hostname")
+        value = rule.get("value", "")
+
+        if value_type == "hostname":
+            if _hostname_matches(value, hostname):
+                return rule, profile_dir
+        elif value_type == "url":
+            if _url_matches(value, url):
+                return rule, profile_dir
+
+    return None, None
+
+
+# ---------------------------------------------------------------------------
+# Dispatch
+# ---------------------------------------------------------------------------
+
+
+def _brave_cmd() -> list[str]:
+    """Return the base command to launch Brave Browser."""
+    # Prefer native binary; fall back to Flatpak
+    import shutil
+    if shutil.which("brave-browser"):
+        return ["brave-browser"]
+    return ["flatpak", "run", "com.brave.Browser"]
+
+
+def dispatch_brave(url: str, profile_dir: str) -> None:
+    """Launch Brave Browser with the given profile directory and URL."""
+    cmd = _brave_cmd() + [f"--profile-directory={profile_dir}", url]
+    log.debug("Dispatching to Brave: %s", cmd)
+    subprocess.Popen(cmd)
+
+
+def fallthrough(args: list[str]) -> None:
+    """Exec the real xdg-open with the original arguments."""
+    log.debug("Falling through to %s %s", REAL_XDG_OPEN, args)
+    os.execv(REAL_XDG_OPEN, [REAL_XDG_OPEN] + args)
+
+
+# ---------------------------------------------------------------------------
+# Main entry point
+# ---------------------------------------------------------------------------
+
+
+def main(argv: list[str]) -> None:
+    args = argv[1:]
+
+    if not args:
+        # No arguments: just pass through
+        fallthrough(args)
+
+    url = args[0]
+    log.debug("Invoked with: %s", url)
+
+    # On WSL, defer entirely to the real xdg-open (which routes through Windows/Switchbar)
+    if _IS_WSL:
+        log.debug("WSL detected — falling through to %s", REAL_XDG_OPEN)
+        fallthrough(args)
+
+    # Non-HTTP/HTTPS URLs pass directly to real xdg-open
+    parsed = urlparse(url)
+    if parsed.scheme not in ("http", "https"):
+        log.debug("Non-HTTP/HTTPS scheme '%s' — falling through", parsed.scheme)
+        fallthrough(args)
+
+    # Load config
+    config = load_config(CONFIG_PATH)
+    if config is None:
+        log.debug("No usable config — falling through")
+        fallthrough(args)
+
+    rules = config.get("rules", [])
+    profiles = config.get("profiles", {})
+
+    rule, profile_dir = find_matching_rule(url, rules, profiles)
+
+    if rule is not None:
+        log.debug(
+            "Matched rule %s (value=%s) → profile dir '%s'",
+            rule.get("id", "?"),
+            rule.get("value", "?"),
+            profile_dir,
+        )
+        dispatch_brave(url, profile_dir)
+    else:
+        log.debug("No rule matched — falling through")
+        fallthrough(args)
+
+
+if __name__ == "__main__":
+    try:
+        main(sys.argv)
+    except Exception as exc:  # pylint: disable=broad-except
+        # Last-resort safety net: never crash the desktop, just fall through
+        try:
+            log.exception("Unexpected error: %s", exc)
+        except Exception:
+            pass
+        os.execv(REAL_XDG_OPEN, [REAL_XDG_OPEN] + sys.argv[1:])

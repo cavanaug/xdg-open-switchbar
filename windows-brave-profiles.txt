@@ -1,0 +1,8 @@
+Found 4 profile(s):
+
+  Directory             Display Name
+  --------------------  ------------------------------
+  Default               JOHN
+  HP                    HP
+  JOHN                  Personal
+  Playwright            Playwright

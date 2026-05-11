@@ -1,0 +1,523 @@
+{
+  "version": 2,
+  "rules": [
+    {
+      "id": "53777047-8c59-4cf0-a104-1c90c32945b2",
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "3eb9aed1-fbe0-5f1a-96be-22558750d33f",
+      "openInNewWindow": false,
+      "valueType": "hostname",
+      "value": "youtu.be"
+    },
+    {
+      "id": "a8b43a93-e92e-4e05-9fe9-d08a6a8d5a22",
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "5060a893-157e-532a-9f4f-322fdcab2272",
+      "openInNewWindow": false,
+      "valueType": "hostname",
+      "value": "s1.ariba.com"
+    },
+    {
+      "id": "0c13c1cf-5cf2-442d-a6f9-3f60d4a35c87",
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "3eb9aed1-fbe0-5f1a-96be-22558750d33f",
+      "openInNewWindow": false,
+      "valueType": "hostname",
+      "value": "linkedin.com"
+    },
+    {
+      "id": "a75c31c2-2b35-48a5-b115-2012d488b7b9",
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "3eb9aed1-fbe0-5f1a-96be-22558750d33f",
+      "openInNewWindow": false,
+      "valueType": "hostname",
+      "value": "localhost"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "3eb9aed1-fbe0-5f1a-96be-22558750d33f",
+      "openInNewWindow": false,
+      "id": "0172105a-49af-4714-8636-447b1e50f9ce",
+      "value": "annotatorjs.org",
+      "valueType": "hostname"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "5060a893-157e-532a-9f4f-322fdcab2272",
+      "openInNewWindow": false,
+      "id": "bc0363a6-0c09-413d-b68d-722224c91e5f",
+      "value": "protect-us.mimecast.com",
+      "valueType": "hostname"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "5060a893-157e-532a-9f4f-322fdcab2272",
+      "openInNewWindow": false,
+      "id": "de0441db-9b53-4e66-811d-2fa12613f865",
+      "value": "hp.zoom.us",
+      "valueType": "hostname"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "3eb9aed1-fbe0-5f1a-96be-22558750d33f",
+      "openInNewWindow": false,
+      "id": "4581b35b-38e9-48fc-bcd2-ef50cd560ef4",
+      "value": "x.com",
+      "valueType": "hostname"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "5060a893-157e-532a-9f4f-322fdcab2272",
+      "openInNewWindow": false,
+      "id": "bbad4b90-d7cc-4a7f-b759-aa675ac523bb",
+      "value": "hpinc-enterprise.us.newsweaver.com",
+      "valueType": "hostname"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "5060a893-157e-532a-9f4f-322fdcab2272",
+      "openInNewWindow": false,
+      "id": "e0841fe8-2f2e-4960-8791-188943cd5abc",
+      "value": "hp.sharepoint.com",
+      "valueType": "hostname"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "5060a893-157e-532a-9f4f-322fdcab2272",
+      "openInNewWindow": false,
+      "id": "ec2da9d8-3c93-4d25-b616-3768bb94ca82",
+      "value": "hp-my.sharepoint.com",
+      "valueType": "hostname"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "5060a893-157e-532a-9f4f-322fdcab2272",
+      "openInNewWindow": false,
+      "id": "5e2b0502-f5bb-49a2-bee8-a9aa8bd991dd",
+      "value": "docs.hponecloud.com",
+      "valueType": "hostname"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "5060a893-157e-532a-9f4f-322fdcab2272",
+      "openInNewWindow": false,
+      "id": "8ba6a01b-86cf-4c5a-987a-612976e070d0",
+      "value": "samlsp.private.zscaler.com",
+      "valueType": "hostname"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "3eb9aed1-fbe0-5f1a-96be-22558750d33f",
+      "openInNewWindow": false,
+      "id": "4eb9b219-08d4-42dd-a28d-7aa334c34062",
+      "value": "opencode.ai",
+      "valueType": "hostname"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "3eb9aed1-fbe0-5f1a-96be-22558750d33f",
+      "openInNewWindow": false,
+      "id": "e7045430-c817-499f-a723-09764a454609",
+      "value": "dev.cavanaughs.org",
+      "valueType": "hostname"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "5060a893-157e-532a-9f4f-322fdcab2272",
+      "openInNewWindow": false,
+      "id": "57f7c3ca-ff43-4f1a-ac1a-100c8f428e2a",
+      "value": "hpitprod.service-now.com",
+      "valueType": "hostname"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "5060a893-157e-532a-9f4f-322fdcab2272",
+      "openInNewWindow": false,
+      "id": "06dc21b9-9f15-4c4c-9987-2051ffdde8b5",
+      "value": "hp.atlan.com",
+      "valueType": "hostname"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "3eb9aed1-fbe0-5f1a-96be-22558750d33f",
+      "id": "af146323-ed32-47dd-a51b-30f486a4e709",
+      "value": "url.us.m.mimecastprotect.com",
+      "valueType": "hostname"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "5060a893-157e-532a-9f4f-322fdcab2272",
+      "openInNewWindow": false,
+      "id": "b58ba631-e4c4-449b-8e7a-2ca7de72df97",
+      "value": "hp-jira.external.hp.com",
+      "valueType": "hostname"
+    },
+    {
+      "type": "app",
+      "appId": "COM.BRAVE.BROWSER",
+      "id": "650068e6-fb47-432d-ae5e-4a3a3eae16e2",
+      "value": "https://github.com/login/device",
+      "valueType": "url",
+      "actionType": "promptSelection"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "5060a893-157e-532a-9f4f-322fdcab2272",
+      "id": "3cdc1fc6-45b6-4245-bf34-0f95aec02bb8",
+      "value": "file://.*\\saml.html",
+      "valueType": "url"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "5060a893-157e-532a-9f4f-322fdcab2272",
+      "id": "6f9f1154-0a2f-4994-bc18-278285ab566c",
+      "value": "https://hp-my.sharepoint.com/*",
+      "valueType": "hostname"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "5060a893-157e-532a-9f4f-322fdcab2272",
+      "id": "93bf83a7-3047-4929-927e-f5e7171b5e69",
+      "value": "https://*.ext.hp.com/*",
+      "valueType": "url"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "5060a893-157e-532a-9f4f-322fdcab2272",
+      "id": "ee8cfc52-e03d-42aa-b208-b90c235646e6",
+      "value": "https://github.com/hpi-*",
+      "valueType": "url"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "5060a893-157e-532a-9f4f-322fdcab2272",
+      "id": "1e99c41c-dd2d-4d7f-8120-b2dfb8e71472",
+      "value": "hp.zoom.com",
+      "valueType": "hostname"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "3eb9aed1-fbe0-5f1a-96be-22558750d33f",
+      "id": "2b680196-42b8-42c2-b96e-9bce7a942ef8",
+      "value": "github.com",
+      "valueType": "hostname"
+    },
+    {
+      "id": "d0d168ff-7514-426c-9663-1373f682efd4",
+      "value": "file://.*",
+      "valueType": "url",
+      "actionType": "promptSelection"
+    },
+    {
+      "type": "profile",
+      "appId": "COM.BRAVE.BROWSER",
+      "profileId": "3eb9aed1-fbe0-5f1a-96be-22558750d33f",
+      "openInNewWindow": false,
+      "id": "80aad3c1-10a4-480c-a5ea-303277db740e",
+      "value": "*.apps.cavanaughs.org",
+      "valueType": "hostname"
+    }
+  ],
+  "browsers": {
+    "COM.MICROSOFT.EDGEMAC": {
+      "id": "COM.MICROSOFT.EDGEMAC",
+      "name": "Microsoft Edge",
+      "bundleId": "COM.MICROSOFT.EDGEMAC",
+      "appPath": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+      "execPath": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+      "pngPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\app-icons\\COM.MICROSOFT.EDGEMAC.png",
+      "priorityScore": 600,
+      "profiles": {
+        "09d11204-4178-58aa-a56e-80f58665de0e": {
+          "id": "09d11204-4178-58aa-a56e-80f58665de0e",
+          "name": "InPrivate",
+          "incognito": true,
+          "avatarPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\edge-avatars\\inprivate.svg"
+        },
+        "51082f91-b32f-5c00-82d3-60caa1494b5d": {
+          "id": "51082f91-b32f-5c00-82d3-60caa1494b5d",
+          "name": "Profile 1",
+          "profileDirName": "Default",
+          "profilePath": "C:\\Users\\cavanaug\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default",
+          "avatarPath": "C:\\Users\\cavanaug\\AppData\\Roaming\\Switchbar\\browser-profiles-icons\\51082f91-b32f-5c00-82d3-60caa1494b5d.png"
+        }
+      }
+    },
+    "COM.BRAVE.BROWSER": {
+      "id": "COM.BRAVE.BROWSER",
+      "name": "Brave",
+      "bundleId": "COM.BRAVE.BROWSER",
+      "appPath": "C:\\Users\\cavanaug\\AppData\\Local\\BraveSoftware\\Brave-Browser\\Application\\brave.exe",
+      "execPath": "C:\\Users\\cavanaug\\AppData\\Local\\BraveSoftware\\Brave-Browser\\Application\\brave.exe",
+      "pngPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\app-icons\\COM.BRAVE.BROWSER.png",
+      "priorityScore": 300,
+      "profiles": {
+        "b570195a-bccd-5f20-9f3a-5cbbc4d34eca": {
+          "id": "b570195a-bccd-5f20-9f3a-5cbbc4d34eca",
+          "name": "Incognito",
+          "incognito": true,
+          "avatarPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\chrome-avatars\\incognito.svg"
+        },
+        "b316a5cf-564b-5a6c-9203-d6292b1a0540": {
+          "id": "b316a5cf-564b-5a6c-9203-d6292b1a0540",
+          "name": "Guest",
+          "profileDirName": "Guest Profile",
+          "profilePath": "C:\\Users\\cavanaug\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Guest Profile",
+          "avatarPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\brave-avatars\\IDR_PROFILE_AVATAR_26@2x.png"
+        },
+        "5060a893-157e-532a-9f4f-322fdcab2272": {
+          "id": "5060a893-157e-532a-9f4f-322fdcab2272",
+          "name": "HP",
+          "profileDirName": "HP",
+          "profilePath": "C:\\Users\\cavanaug\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\HP",
+          "avatarPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\brave-avatars\\IDR_PROFILE_AVATAR_78@2x.png"
+        },
+        "3eb9aed1-fbe0-5f1a-96be-22558750d33f": {
+          "id": "3eb9aed1-fbe0-5f1a-96be-22558750d33f",
+          "name": "JOHN",
+          "profileDirName": "Default",
+          "profilePath": "C:\\Users\\cavanaug\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default",
+          "avatarPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\brave-avatars\\IDR_PROFILE_AVATAR_80@2x.png"
+        },
+        "b41ebfbf-39f4-5826-bce5-b731730cadb7": {
+          "id": "b41ebfbf-39f4-5826-bce5-b731730cadb7",
+          "name": "Personal",
+          "profileDirName": "JOHN",
+          "profilePath": "C:\\Users\\cavanaug\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\JOHN",
+          "avatarPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\brave-avatars\\IDR_PROFILE_AVATAR_26@2x.png"
+        },
+        "25905041-807b-55d2-a9e2-4cfdba49f90f": {
+          "id": "25905041-807b-55d2-a9e2-4cfdba49f90f",
+          "name": "Playwright",
+          "profileDirName": "Playwright",
+          "profilePath": "C:\\Users\\cavanaug\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Playwright",
+          "avatarPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\brave-avatars\\IDR_PROFILE_AVATAR_58@2x.png"
+        }
+      }
+    },
+    "ORG.MOZILLA.LIBREWOLF": {
+      "id": "ORG.MOZILLA.LIBREWOLF",
+      "name": "LibreWolf",
+      "bundleId": "ORG.MOZILLA.LIBREWOLF",
+      "appPath": "C:\\Program Files\\LibreWolf\\librewolf.exe",
+      "execPath": "C:\\Program Files\\LibreWolf\\librewolf.exe",
+      "pngPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\app-icons\\ORG.MOZILLA.LIBREWOLF.png",
+      "priorityScore": 200,
+      "profiles": {
+        "fed166fe-cdaa-56b1-b951-cdb3e10e009f": {
+          "id": "fed166fe-cdaa-56b1-b951-cdb3e10e009f",
+          "name": "default-release",
+          "profileDirName": "1qc7uk77.default-release",
+          "profilePath": "C:\\Users\\cavanaug\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\1qc7uk77.default-release"
+        },
+        "5134e895-87f7-5dcb-b4be-109ffb7f9fdc": {
+          "id": "5134e895-87f7-5dcb-b4be-109ffb7f9fdc",
+          "name": "default",
+          "profileDirName": "mpcevd4r.default",
+          "profilePath": "C:\\Users\\cavanaug\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\mpcevd4r.default"
+        }
+      }
+    },
+    "COM.MICROSOFT.TEAMS2": {
+      "id": "COM.MICROSOFT.TEAMS2",
+      "name": "Microsoft Teams",
+      "bundleId": "COM.MICROSOFT.TEAMS2",
+      "appPath": "C:\\Program Files\\WindowsApps\\MSTeams_26072.519.4556.7438_x64__8wekyb3d8bbwe",
+      "execPath": "appx:MSTeams_8wekyb3d8bbwe!MSTeams",
+      "pngPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\app-icons\\COM.MICROSOFT.TEAMS2.png",
+      "priorityScore": 200,
+      "profiles": {}
+    },
+    "US.ZOOM.XOS": {
+      "id": "US.ZOOM.XOS",
+      "name": "Zoom",
+      "bundleId": "US.ZOOM.XOS",
+      "appPath": "C:\\Program Files\\Zoom\\bin\\Zoom.exe",
+      "execPath": "C:\\Program Files\\Zoom\\bin\\Zoom.exe",
+      "pngPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\app-icons\\US.ZOOM.XOS.png",
+      "priorityScore": 200,
+      "profiles": {}
+    }
+  },
+  "emailClients": {
+    "COM.MICROSOFT.OUTLOOK.NEW": {
+      "id": "COM.MICROSOFT.OUTLOOK.NEW",
+      "name": "Outlook",
+      "bundleId": "COM.MICROSOFT.OUTLOOK.NEW",
+      "appPath": "C:\\Program Files\\WindowsApps\\Microsoft.OutlookForWindows_1.2026.210.300_x64__8wekyb3d8bbwe",
+      "execPath": "appx:Microsoft.OutlookForWindows_8wekyb3d8bbwe!Microsoft.OutlookforWindows",
+      "pngPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\app-icons\\COM.MICROSOFT.OUTLOOK.NEW.png",
+      "priorityScore": 400,
+      "profiles": {}
+    },
+    "COM.MICROSOFT.OUTLOOK": {
+      "id": "COM.MICROSOFT.OUTLOOK",
+      "name": "Outlook (classic)",
+      "bundleId": "COM.MICROSOFT.OUTLOOK",
+      "appPath": "C:\\Program Files\\Microsoft Office\\root\\Office16\\OUTLOOK.EXE",
+      "execPath": "C:\\Program Files\\Microsoft Office\\root\\Office16\\OUTLOOK.EXE",
+      "pngPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\app-icons\\COM.MICROSOFT.OUTLOOK.png",
+      "priorityScore": 400,
+      "profiles": {}
+    },
+    "WWW.MAIL.GOOOGLE.COM": {
+      "appPath": "",
+      "execPath": "",
+      "bundleId": "WWW.MAIL.GOOOGLE.COM",
+      "id": "WWW.MAIL.GOOOGLE.COM",
+      "name": "Gmail",
+      "pngPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\webmail-app-icons\\WWW.MAIL.GOOOGLE.COM.png",
+      "priorityScore": 5,
+      "profiles": {}
+    },
+    "WWW.OUTLOOK.OFFICE.COM": {
+      "appPath": "",
+      "execPath": "",
+      "bundleId": "WWW.OUTLOOK.OFFICE.COM",
+      "id": "WWW.OUTLOOK.OFFICE.COM",
+      "name": "Outlook (Office 365)",
+      "pngPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\webmail-app-icons\\WWW.OUTLOOK.OFFICE.COM.png",
+      "priorityScore": 4,
+      "profiles": {}
+    },
+    "WWW.MAIL.AOL.COM": {
+      "appPath": "",
+      "execPath": "",
+      "bundleId": "WWW.MAIL.AOL.COM",
+      "id": "WWW.MAIL.AOL.COM",
+      "name": "AOL Mail",
+      "pngPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\webmail-app-icons\\WWW.MAIL.AOL.COM.png",
+      "priorityScore": 2,
+      "profiles": {}
+    },
+    "WWW.WEBMAIL.DISROOT.ORG": {
+      "appPath": "",
+      "execPath": "",
+      "bundleId": "WWW.WEBMAIL.DISROOT.ORG",
+      "id": "WWW.WEBMAIL.DISROOT.ORG",
+      "name": "Disroot Mail",
+      "pngPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\webmail-app-icons\\WWW.WEBMAIL.DISROOT.ORG.png",
+      "priorityScore": 2,
+      "profiles": {}
+    },
+    "WWW.FASTMAIL.COM": {
+      "appPath": "",
+      "execPath": "",
+      "bundleId": "WWW.FASTMAIL.COM",
+      "id": "WWW.FASTMAIL.COM",
+      "name": "Fastmail",
+      "pngPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\webmail-app-icons\\WWW.FASTMAIL.COM.png",
+      "priorityScore": 2,
+      "profiles": {}
+    },
+    "WWW.HEY.COM": {
+      "appPath": "",
+      "execPath": "",
+      "bundleId": "WWW.HEY.COM",
+      "id": "WWW.HEY.COM",
+      "name": "Hey",
+      "pngPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\webmail-app-icons\\WWW.HEY.COM.png",
+      "priorityScore": 2,
+      "profiles": {}
+    },
+    "WWW.OUTLOOK.COM": {
+      "appPath": "",
+      "execPath": "",
+      "bundleId": "WWW.OUTLOOK.COM",
+      "id": "WWW.OUTLOOK.COM",
+      "name": "Outlook.com",
+      "pngPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\webmail-app-icons\\WWW.OUTLOOK.COM.png",
+      "priorityScore": 2,
+      "profiles": {}
+    },
+    "WWW.MAIL.PROTON.ME": {
+      "appPath": "",
+      "execPath": "",
+      "bundleId": "WWW.MAIL.PROTON.ME",
+      "id": "WWW.MAIL.PROTON.ME",
+      "name": "Proton Mail",
+      "pngPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\webmail-app-icons\\WWW.MAIL.PROTON.ME.png",
+      "priorityScore": 2,
+      "profiles": {}
+    },
+    "WWW.SOVERIN.NET": {
+      "appPath": "",
+      "execPath": "",
+      "bundleId": "WWW.SOVERIN.NET",
+      "id": "WWW.SOVERIN.NET",
+      "name": "Soverin",
+      "pngPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\webmail-app-icons\\WWW.SOVERIN.NET.png",
+      "priorityScore": 2,
+      "profiles": {}
+    },
+    "WWW.TUTA.COM": {
+      "appPath": "",
+      "execPath": "",
+      "bundleId": "WWW.TUTA.COM",
+      "id": "WWW.TUTA.COM",
+      "name": "Tuta",
+      "pngPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\webmail-app-icons\\WWW.TUTA.COM.png",
+      "priorityScore": 2,
+      "profiles": {}
+    },
+    "WWW.MAIL.YAHOO.COM": {
+      "appPath": "",
+      "execPath": "",
+      "bundleId": "WWW.MAIL.YAHOO.COM",
+      "id": "WWW.MAIL.YAHOO.COM",
+      "name": "Yahoo Mail",
+      "pngPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\webmail-app-icons\\WWW.MAIL.YAHOO.COM.png",
+      "priorityScore": 2,
+      "profiles": {}
+    },
+    "WWW.MAIL.YANDEX.COM": {
+      "appPath": "",
+      "execPath": "",
+      "bundleId": "WWW.MAIL.YANDEX.COM",
+      "id": "WWW.MAIL.YANDEX.COM",
+      "name": "Yandex Mail",
+      "pngPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\webmail-app-icons\\WWW.MAIL.YANDEX.COM.png",
+      "priorityScore": 2,
+      "profiles": {}
+    },
+    "WWW.MAIL.ZOHO.COM": {
+      "appPath": "",
+      "execPath": "",
+      "bundleId": "WWW.MAIL.ZOHO.COM",
+      "id": "WWW.MAIL.ZOHO.COM",
+      "name": "Zoho Mail",
+      "pngPath": "C:\\Users\\cavanaug\\AppData\\Local\\Programs\\Switchbar\\resources\\app.asar.unpacked\\build\\forked\\images\\webmail-app-icons\\WWW.MAIL.ZOHO.COM.png",
+      "priorityScore": 2,
+      "profiles": {}
+    }
+  },
+  "profiles": {
+    "3eb9aed1-fbe0-5f1a-96be-22558750d33f": "JOHN",
+    "5060a893-157e-532a-9f4f-322fdcab2272": "HP"
+  }
+}
