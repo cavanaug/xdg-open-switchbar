@@ -2,12 +2,12 @@
 
 Linux equivalent of [Switchbar](https://switchbar.app/) — routes URLs to specific Brave Browser profiles by hostname rule.
 
-When any application opens a URL, this script intercepts it, matches the hostname against a JSON rules file, and dispatches the URL to the correct Brave Browser profile via `brave-browser --profile-directory`. URLs that match no rule fall through to the real `/usr/bin/xdg-open`.
+When any application opens a URL, this script intercepts it, matches the hostname against a JSON rules file, and dispatches the URL to the correct Brave Browser profile via `--profile-directory`. URLs that match no rule fall through to the real `/usr/bin/xdg-open`.
 
 ## Requirements
 
 - Python 3.6+ (stdlib only — no third-party packages)
-- `brave-browser` in `$PATH`
+- Brave Browser installed natively (`brave-browser` in `$PATH`) **or** via Flatpak (`com.brave.Browser`) — the script auto-detects which is available
 - `~/.local/bin` appearing before `/usr/bin` in `$PATH` (standard on most modern Linux distros)
 
 ## Installation
@@ -50,8 +50,15 @@ cp switchbar-rules.json ~/.config/switchbar/switchbar-rules.json
 
 Then edit the `profiles` section to map the UUID profileIds to your actual Brave profile directory names. Find your profile directories with:
 
+**Native install:**
 ```bash
 ls ~/.config/brave/
+# Example output: Default  Profile 1  Profile 2
+```
+
+**Flatpak install:**
+```bash
+ls ~/.var/app/com.brave.Browser/config/BraveSoftware/Brave-Browser/ | grep -E "^(Default|Profile)"
 # Example output: Default  Profile 1  Profile 2
 ```
 
@@ -125,7 +132,7 @@ The system reverts to using `/usr/bin/xdg-open` immediately.
 | Config file missing | Falls through to real `xdg-open` |
 | Config file malformed JSON | Falls through to real `xdg-open` |
 | Unknown profileId in rule | Skips that rule, continues matching |
-| `brave-browser` not found | Falls through to real `xdg-open` |
+| `brave-browser` not found | Tries `flatpak run com.brave.Browser`; if neither found, falls through to real `xdg-open` |
 | Non-HTTP/HTTPS URL | Passes directly to real `xdg-open` |
 | Unexpected exception | Falls through to real `xdg-open` |
 
