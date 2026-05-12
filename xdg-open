@@ -102,11 +102,13 @@ def _hostname_matches(pattern: str, hostname: str) -> bool:
 
 
 def _url_matches(pattern: str, url: str) -> bool:
-    """Match a rule value (glob-like pattern) against the full URL."""
-    # Convert simple glob patterns (* and ?) to regex
-    regex = re.escape(pattern)
-    regex = regex.replace(r"\*", ".*").replace(r"\?", ".")
-    return bool(re.match(regex, url, re.IGNORECASE))
+    """Match a rule value (regex pattern) against the full URL."""
+    try:
+        return bool(re.match(pattern, url, re.IGNORECASE))
+    except re.error:
+        # Treat broken patterns as no-match
+        log.warning("Invalid regex in url rule: %s", pattern)
+        return False
 
 
 def find_matching_rule(
@@ -317,22 +319,32 @@ def main(argv: list[str]) -> None:
         log.debug("WSL detected — falling through to %s", REAL_XDG_OPEN)
         fallthrough(args)
 
-    # Non-HTTP/HTTPS URLs pass directly to real xdg-open
     parsed = urlparse(url)
-    if parsed.scheme not in ("http", "https"):
-        log.debug("Non-HTTP/HTTPS scheme '%s' — falling through", parsed.scheme)
-        fallthrough(args)
+    is_http = parsed.scheme in ("http", "https")
 
-    # Load config
+    # Load config (needed for rule matching regardless of scheme)
     config = load_config(CONFIG_PATH)
-    if config is None:
-        log.debug("No usable config — falling through")
-        fallthrough(args)
 
-    rules = config.get("rules", [])
-    profiles = config.get("profiles", {})
-
-    rule, profile_dir, prompt = find_matching_rule(url, rules, profiles)
+    # For non-HTTP/HTTPS, only continue if a rule explicitly matches;
+    # otherwise fall through to real xdg-open immediately.
+    if not is_http:
+        if config is None:
+            log.debug("Non-HTTP/HTTPS scheme '%s' and no config — falling through", parsed.scheme)
+            fallthrough(args)
+        rules = config.get("rules", [])
+        profiles = config.get("profiles", {})
+        rule, profile_dir, prompt = find_matching_rule(url, rules, profiles)
+        if rule is None and not prompt:
+            log.debug("Non-HTTP/HTTPS scheme '%s', no rule matched — falling through", parsed.scheme)
+            fallthrough(args)
+        # A rule matched — fall through to dispatch logic below
+    else:
+        if config is None:
+            log.debug("No usable config — falling through")
+            fallthrough(args)
+        rules = config.get("rules", [])
+        profiles = config.get("profiles", {})
+        rule, profile_dir, prompt = find_matching_rule(url, rules, profiles)
 
     if prompt:
         log.debug("promptSelection rule matched — showing profile picker")
@@ -346,7 +358,7 @@ def main(argv: list[str]) -> None:
         )
         dispatch_brave(url, profile_dir)
     else:
-        # No rule matched — use default profile if configured, else launch without profile
+        # No rule matched (HTTP/HTTPS) — use default profile if configured, else launch without profile
         default_profile_dir = config.get("profiles", {}).get("default")
         if default_profile_dir:
             log.debug("No rule matched — dispatching to default profile '%s'", default_profile_dir)
