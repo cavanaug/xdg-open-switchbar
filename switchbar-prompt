@@ -1,0 +1,190 @@
+#!/usr/bin/env python3
+"""
+switchbar-prompt: Profile picker for xdg-open-switchbar.
+
+Shows a Switchbar-style horizontal card UI using tkinter with
+real Brave profile colors.
+
+Usage:
+  switchbar-prompt <url> <dir:Name:color:text_color> [...]
+
+Each profile arg is colon-separated:
+  dir        — Brave profile directory name (e.g. "Default")
+  Name       — Display name (e.g. "JOHN")
+  color      — Avatar background hex color (e.g. "#1f1f23")
+  text_color — Avatar text hex color (e.g. "#ffffff")
+
+Prints the chosen profile directory to stdout and exits 0.
+Exits 1 if cancelled.
+"""
+
+import sys
+import tkinter as tk
+
+
+def _contrast_color(hex_color: str) -> str:
+    """Return black or white depending on background luminance."""
+    hex_color = hex_color.lstrip("#")
+    r, g, b = int(hex_color[0:2], 16), int(hex_color[2:4], 16), int(hex_color[4:6], 16)
+    luminance = 0.299 * r + 0.587 * g + 0.114 * b
+    return "#ffffff" if luminance < 140 else "#202124"
+
+
+def pick_profile(url: str, profiles: list[tuple[str, str, str, str]]) -> str | None:
+    """
+    Show a profile picker dialog.
+
+    profiles: list of (profile_dir, display_name, bg_color, text_color)
+    Returns the chosen profile_dir, or None if cancelled.
+    """
+    chosen = [None]
+
+    root = tk.Tk()
+    root.title("Open with Brave")
+    root.resizable(False, False)
+    root.configure(bg="#ffffff")
+    root.attributes("-topmost", True)
+
+    # ── URL bar ──────────────────────────────────────────────────────────────
+    url_frame = tk.Frame(root, bg="#f8f9fa", padx=16, pady=10)
+    url_frame.pack(fill=tk.X)
+
+    # Truncate long URLs for display
+    display_url = url if len(url) <= 70 else url[:67] + "..."
+    tk.Label(
+        url_frame,
+        text=display_url,
+        bg="#f8f9fa",
+        fg="#5f6368",
+        font=("Sans", 10),
+        justify=tk.CENTER,
+    ).pack()
+
+    tk.Frame(root, bg="#e0e0e0", height=1).pack(fill=tk.X)
+
+    # ── Profile cards ────────────────────────────────────────────────────────
+    cards_frame = tk.Frame(root, bg="#ffffff", padx=20, pady=24)
+    cards_frame.pack()
+
+    def select(profile_dir: str) -> None:
+        chosen[0] = profile_dir
+        root.destroy()
+
+    for i, (profile_dir, display_name, bg_color, text_color) in enumerate(profiles):
+        card = tk.Frame(cards_frame, bg="#ffffff", padx=14, pady=10, cursor="hand2")
+        card.grid(row=0, column=i, padx=10)
+
+        initial = display_name[0].upper() if display_name else "?"
+
+        # Avatar circle
+        canvas = tk.Canvas(card, width=80, height=80, bg="#ffffff", highlightthickness=0)
+        canvas.pack()
+        canvas.create_oval(4, 4, 76, 76, fill=bg_color, outline="")
+        canvas.create_text(40, 40, text=initial, fill=text_color, font=("Sans", 30, "bold"))
+
+        # Display name
+        tk.Label(
+            card,
+            text=display_name,
+            bg="#ffffff",
+            fg="#202124",
+            font=("Sans", 11, "bold"),
+        ).pack(pady=(8, 0))
+
+        # Browser label
+        tk.Label(
+            card,
+            text="Brave",
+            bg="#ffffff",
+            fg="#fb542b",
+            font=("Sans", 9),
+        ).pack()
+
+        # Keyboard shortcut
+        shortcut = f"Ctrl+{i + 1}" if i < 9 else ""
+        tk.Label(card, text=shortcut, bg="#ffffff", fg="#9aa0a6", font=("Sans", 9)).pack()
+
+        # Hover effects — lighten background
+        def _enter(e, f=card, c=canvas):
+            f.configure(bg="#f1f3f4")
+            c.configure(bg="#f1f3f4")
+            for w in f.winfo_children():
+                if isinstance(w, tk.Label):
+                    w.configure(bg="#f1f3f4")
+
+        def _leave(e, f=card, c=canvas):
+            f.configure(bg="#ffffff")
+            c.configure(bg="#ffffff")
+            for w in f.winfo_children():
+                if isinstance(w, tk.Label):
+                    w.configure(bg="#ffffff")
+
+        card.bind("<Enter>", _enter)
+        card.bind("<Leave>", _leave)
+        card.bind("<Button-1>", lambda e, d=profile_dir: select(d))
+        canvas.bind("<Button-1>", lambda e, d=profile_dir: select(d))
+        for child in card.winfo_children():
+            child.bind("<Button-1>", lambda e, d=profile_dir: select(d))
+            child.bind("<Enter>", _enter)
+            child.bind("<Leave>", _leave)
+
+        if i < 9:
+            root.bind(f"<Control-Key-{i + 1}>", lambda e, d=profile_dir: select(d))
+
+    # ── Footer ────────────────────────────────────────────────────────────────
+    tk.Frame(root, bg="#e0e0e0", height=1).pack(fill=tk.X)
+    footer = tk.Frame(root, bg="#ffffff", padx=16, pady=8)
+    footer.pack(fill=tk.X)
+    tk.Label(
+        footer,
+        text="Press Escape to cancel",
+        bg="#ffffff",
+        fg="#9aa0a6",
+        font=("Sans", 9),
+    ).pack(side=tk.RIGHT)
+
+    root.bind("<Escape>", lambda e: root.destroy())
+
+    # Center on screen
+    root.update_idletasks()
+    w = root.winfo_reqwidth()
+    h = root.winfo_reqheight()
+    sw = root.winfo_screenwidth()
+    sh = root.winfo_screenheight()
+    root.geometry(f"+{(sw - w) // 2}+{(sh - h) // 3}")
+
+    root.mainloop()
+    return chosen[0]
+
+
+if __name__ == "__main__":
+    if len(sys.argv) < 3:
+        print(
+            "Usage: switchbar-prompt <url> <dir:Name:color:text_color> [...]",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    url = sys.argv[1]
+    profiles = []
+    for arg in sys.argv[2:]:
+        parts = arg.split(":", 3)
+        if len(parts) == 4:
+            d, name, color, text_color = parts
+        elif len(parts) == 3:
+            d, name, color = parts
+            text_color = _contrast_color(color)
+        elif len(parts) == 2:
+            d, name = parts
+            color, text_color = "#1a73e8", "#ffffff"
+        else:
+            d = name = arg
+            color, text_color = "#1a73e8", "#ffffff"
+        profiles.append((d, name, color, text_color))
+
+    result = pick_profile(url, profiles)
+    if result:
+        print(result)
+        sys.exit(0)
+    else:
+        sys.exit(1)
