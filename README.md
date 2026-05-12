@@ -1,25 +1,26 @@
 # xdg-open-switchbar
 
-Linux equivalent of [Switchbar](https://switchbar.app/) — routes URLs to specific Brave Browser profiles by hostname rule.
+Linux equivalent of [Switchbar](https://switchbar.app/) — routes URLs to specific Brave Browser profiles by hostname rule, with an interactive profile picker for `promptSelection` rules.
 
-When any application opens a URL, this script intercepts it, matches the hostname against a JSON rules file, and dispatches the URL to the correct Brave Browser profile via `--profile-directory`. URLs that match no rule fall through to the real `/usr/bin/xdg-open`.
+When any application opens a URL, this script intercepts it, matches the URL against a JSON rules file, and dispatches to the correct Brave Browser profile via `--profile-directory`. URLs that match no rule fall through to the real `/usr/bin/xdg-open`.
 
 ## Requirements
 
-- Python 3.6+ (stdlib only — no third-party packages)
+- Python 3.6+ with `tkinter` (stdlib; `tkinter` is a separate package on some distros — e.g. `python3-tk` on Debian/Ubuntu)
 - Brave Browser installed natively (`brave-browser` in `$PATH`) **or** via Flatpak (`com.brave.Browser`) — the script auto-detects which is available
 - `~/.local/bin` appearing before `/usr/bin` in `$PATH` (standard on most modern Linux distros)
 
 ## Installation
 
-### 1. Install the script
+### 1. Install the scripts
 
 ```bash
 cp xdg-open ~/.local/bin/xdg-open
-chmod +x ~/.local/bin/xdg-open
+cp switchbar-prompt ~/.local/bin/switchbar-prompt
+chmod +x ~/.local/bin/xdg-open ~/.local/bin/switchbar-prompt
 ```
 
-Verify it shadows the system binary:
+Verify the shadow is active:
 
 ```bash
 which xdg-open
@@ -52,14 +53,12 @@ Then edit the `profiles` section to map the UUID profileIds to your actual Brave
 
 **Native install:**
 ```bash
-ls ~/.config/brave/
-# Example output: Default  Profile 1  Profile 2
+ls ~/.config/brave/ | grep -E "^(Default|Profile)"
 ```
 
 **Flatpak install:**
 ```bash
 ls ~/.var/app/com.brave.Browser/config/BraveSoftware/Brave-Browser/ | grep -E "^(Default|Profile)"
-# Example output: Default  Profile 1  Profile 2
 ```
 
 Edit `~/.config/switchbar/switchbar-rules.json` and update the `profiles` object:
@@ -68,23 +67,25 @@ Edit `~/.config/switchbar/switchbar-rules.json` and update the `profiles` object
 {
   "profiles": {
     "3eb9aed1-fbe0-5f1a-96be-22558750d33f": "Default",
-    "5060a893-157e-532a-9f4f-322fdcab2272": "Profile 1"
+    "5060a893-157e-532a-9f4f-322fdcab2272": "HP",
+    "default": "Default"
   },
   ...
 }
 ```
 
-Replace `"Default"` and `"Profile 1"` with the actual directory names for your personal and work profiles.
+The special `"default"` key sets the profile used when no rule matches an HTTP/HTTPS URL.
 
 ## Config File Format
 
-The config follows the Switchbar v2 schema with an added `profiles` top-level key:
+The config follows the Switchbar v2 schema with added `profiles` and `default` top-level keys:
 
 ```json
 {
   "version": 2,
   "profiles": {
-    "<uuid-profileId>": "<brave-profile-directory-name>"
+    "<uuid-profileId>": "<brave-profile-directory-name>",
+    "default": "<brave-profile-directory-name>"
   },
   "rules": [
     {
@@ -92,7 +93,6 @@ The config follows the Switchbar v2 schema with an added `profiles` top-level ke
       "type": "profile",
       "appId": "COM.BRAVE.BROWSER",
       "profileId": "<uuid-profileId>",
-      "openInNewWindow": false,
       "valueType": "hostname",
       "value": "example.com"
     }
@@ -101,10 +101,28 @@ The config follows the Switchbar v2 schema with an added `profiles` top-level ke
 ```
 
 **Supported rule types:**
-- `type: "profile"` with `valueType: "hostname"` — exact hostname match (e.g. `"hp.zoom.us"`) or wildcard prefix (e.g. `"*.apps.cavanaughs.org"`)
-- `type: "profile"` with `valueType: "url"` — glob pattern match against the full URL
+
+| `valueType` | `value` format | Example |
+|---|---|---|
+| `hostname` | Exact hostname or `*.domain` wildcard | `"hp.zoom.us"`, `"*.apps.cavanaughs.org"` |
+| `url` | Regex matched against the full URL | `"https://github.com/login/device"`, `"file://.*"` |
+
+**`actionType: "promptSelection"`** — instead of dispatching immediately, shows the `switchbar-prompt` GUI picker so the user can choose which profile to open the URL in.
 
 Rules with `type: "app"` or unknown profileIds are silently skipped.
+
+## Profile Picker (`switchbar-prompt`)
+
+When a `promptSelection` rule matches, `xdg-open` launches `switchbar-prompt` — a tkinter-based GUI dialog showing a horizontal row of profile cards. Each card displays:
+
+- Colored avatar circle with the profile initial
+- Profile display name
+- "Brave" browser label
+- Keyboard shortcut (Ctrl+1, Ctrl+2, …)
+
+Press **Escape** to cancel without opening anything.
+
+Profile colors are read from Brave's `Local State` file. You can override colors by editing the `COLOR_OVERRIDES` dict in `xdg-open`'s `load_brave_profile_metadata()` function.
 
 ## Debug Logging
 
@@ -115,12 +133,12 @@ XDG_SWITCHBAR_DEBUG=1 xdg-open https://youtu.be/dQw4w9WgXcQ
 tail ~/.local/share/xdg-open-switchbar/switchbar.log
 ```
 
-The log records: timestamp, input URL, matched rule ID, and dispatched command.
+The log records: timestamp, input URL, matched rule ID, resolved profile, and dispatched command.
 
 ## Uninstallation
 
 ```bash
-rm ~/.local/bin/xdg-open
+rm ~/.local/bin/xdg-open ~/.local/bin/switchbar-prompt
 ```
 
 The system reverts to using `/usr/bin/xdg-open` immediately.
@@ -132,15 +150,16 @@ The system reverts to using `/usr/bin/xdg-open` immediately.
 | Config file missing | Falls through to real `xdg-open` |
 | Config file malformed JSON | Falls through to real `xdg-open` |
 | Unknown profileId in rule | Skips that rule, continues matching |
-| `brave-browser` not found | Tries `flatpak run com.brave.Browser`; if neither found, falls through to real `xdg-open` |
-| Non-HTTP/HTTPS URL | Passes directly to real `xdg-open` |
+| `brave-browser` not found | Tries `flatpak run com.brave.Browser`; if neither found, falls through |
+| Non-HTTP/HTTPS URL with no matching rule | Passes to real `xdg-open` |
+| `switchbar-prompt` not found | Falls back to Brave's built-in profile picker |
 | Unexpected exception | Falls through to real `xdg-open` |
 
 ## Out of Scope (MVP)
 
-- `mailto:` and other non-HTTP URL schemes
+- `mailto:` and other non-HTTP URL schemes (unless a `url` rule explicitly matches)
 - Multi-browser dispatch (non-Brave)
-- Interactive profile chooser
 - `openInNewWindow` support
 - Auto-discovery of Brave profile directories
 - Package manager distribution
+
